@@ -11,6 +11,8 @@ body {
 }
 
 #device {
+    background-image: url('assets/device.png');
+    background-size: 350px 571px;
     height: 571px;
     touch-action: none;
     user-select: none;

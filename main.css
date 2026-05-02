@@ -1,0 +1,26 @@
+body {
+    align-items: center;
+    display: flex;
+    height: 100vh;
+    justify-content: center;
+    margin: 0;
+}
+
+#device-wrapper {
+    position: relative;
+}
+
+#device {
+    height: 571px;
+    width: 350px;
+}
+
+#canvas {
+    position: absolute;
+    left: 94px;
+    top: 81px;
+}
+
+.hidden {
+    display: none;
+}

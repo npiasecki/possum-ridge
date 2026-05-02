@@ -1,0 +1,327 @@
+const FPS = 60;
+const INTERVAL = 1 / FPS;
+const SCREEN_HEIGHT = 144;
+const SCREEN_WIDTH = 160;
+const TILE_SIZE = 8;
+const TILES_PER_TILESET_ROW = 64;
+const POSSUM_WALK_SPEED = 60;
+const POSSUM_RUN_SPEED = POSSUM_WALK_SPEED * 2;
+
+// 20 tiles wide x 18 tiles high
+const levels = [
+  [
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
+      [ 2, 2, 3, 2, 2, 6, 2, 4, 2, 2, 2, 5, 2, 6, 3, 2, 2, 6, 2, 2, 2, 2, 3, 2, 2, 6, 2, 4, 2, 2, 2, 5, 2, 6, 3, 2, 2, 6, 2, 2],
+      [ 5, 3, 2, 2, 6, 3, 5, 2, 2, 2, 3, 4, 2, 2, 2, 2, 4, 2, 3, 5, 5, 3, 2, 2, 6, 3, 5, 2, 2, 2, 3, 4, 2, 2, 2, 2, 4, 2, 3, 5]
+  ]
+];
+
+class Possum {
+    constructor() {
+        this.animations = [
+            [document.getElementById('possum-idle-right'), 4],
+            [document.getElementById('possum-idle-left'), 4],
+            [document.getElementById('possum-walk-right'), 4],
+            [document.getElementById('possum-walk-left'), 4],
+            [document.getElementById('possum-jump-right'), 5]
+        ];
+        this.animationIndex = 0;
+        this.direction = 0;
+        this.jumping = false;
+        this.lastRenderTime = Date.now();
+        this.levelX = 0;
+        this.levelY = 0;
+        this.renderX = 0;
+        this.renderY = 0;
+        this.running = false;
+        this.spriteHeight = 16;
+        this.spriteWidth = 8;
+        this.velocityY = 0;
+    }
+
+    draw(context) {
+        const animation = this.animations[this.animationIndex];
+        const currentFrame = Math.floor((((Date.now() - this.lastRenderTime) / (this.running ? 100 : 250)) % animation[1]));
+        context.drawImage(
+            animation[0],
+            currentFrame * this.spriteWidth,
+            0,
+            this.spriteWidth,
+            this.spriteHeight,
+            this.renderX,
+            this.renderY,
+            this.spriteWidth,
+            this.spriteHeight
+        );
+    }
+
+    refreshRenderPosition(scrollX) {
+        this.renderX = this.levelX - scrollX;
+        this.renderY = this.levelY;
+    }
+
+    update(buttonStates, collisions, interval, levelWidth) {
+        this.running = buttonStates.b;
+
+        // We might need to snap back up if we slipped below the floor during the last loop
+        if (this.velocityY >= 0 && collisions.bottom) {
+            const nearestFloorHeight = SCREEN_HEIGHT - collisions.bottomY;
+            this.levelY = SCREEN_HEIGHT - this.spriteHeight - nearestFloorHeight;
+        }
+
+        // Apply some gravity: TODO, unless jumping
+        if (!collisions.bottom) {
+            this.velocityY += 0.25;
+        }
+
+        // Do we need to stop vertical movement?
+        if ((this.velocityY > 0 && collisions.bottom) /* hit the floor */ ||
+            (this.velocityY < 0 && this.levelY <= 0) /* hit the top of the screen */ ||
+            (this.velocityY < 0 && collisions.top) /* hit his head */) {
+            this.jumping = false;
+            this.velocityY = 0;
+        }
+
+        // Update our vertical position
+        this.levelY += this.velocityY;
+
+        // Do we want to move right?
+        if (buttonStates.right) {
+            if (this.levelX + this.spriteWidth < levelWidth && !collisions.right) {
+                this.levelX += (this.running ? POSSUM_RUN_SPEED : POSSUM_WALK_SPEED) * interval;
+            }
+
+            this.animationIndex = 2;
+            this.direction = 0;
+        }
+
+        // Do we want to move left?
+        if (buttonStates.left) {
+            if (this.levelX > 0 && !collisions.left) {
+                this.levelX -= (this.running ? POSSUM_RUN_SPEED : POSSUM_WALK_SPEED) * interval;
+            }
+
+            this.animationIndex = 3;
+            this.direction = 1;
+        }
+
+        // Are we trying to jump?
+        if (buttonStates.a && !this.jumping) {
+            this.jumping = true;
+            this.animationIndex = 4; // TODO left/right jump
+            this.levelY -= 1;
+            this.velocityY = -5;
+        }
+
+        // If we're not moving, return to idle animation
+        if (!this.jumping && !buttonStates.left && !buttonStates.right) {
+            this.animationIndex = this.direction;
+        }
+    }
+}
+
+class Game {
+    constructor() {
+        this.buttonStates = {
+            a: false,
+            b: false,
+            down: false,
+            left: false,
+            right: false,
+            select: false,
+            start: false,
+            up: false
+        };
+        this.canvas = document.getElementById('canvas');
+        this.context = this.canvas.getContext('2d');
+        this.level = 0;
+        this.scrollX = 0;
+        this.tileset = document.getElementById('tileset');
+
+        this.possum = new Possum();
+
+        this.sprites = [this.possum];
+
+        this.initializeButtons();
+        this.initializeKeys();
+    }
+
+    checkSpriteTileCollision(sprite, tileX, tileY, tileIndex, collisions) {
+        if ((sprite.levelX + sprite.spriteWidth >= tileX && sprite.levelX <= tileX + TILE_SIZE) &&
+            (sprite.levelY + sprite.spriteHeight >= tileY && sprite.levelY <= tileY + TILE_SIZE)) {
+
+            const intersect = {
+                x: Math.max(sprite.levelX, tileX),
+                y: Math.max(sprite.levelY, tileY),
+            };
+
+            intersect.width = Math.min(sprite.levelX + sprite.spriteWidth, tileX + TILE_SIZE) - intersect.x;
+            intersect.height = Math.min(sprite.levelY + sprite.spriteHeight, tileY + TILE_SIZE) - intersect.y;
+
+            if (sprite.levelX + sprite.spriteWidth / 2 > tileX + TILE_SIZE / 2 && intersect.height > intersect.width) {
+                collisions.left = true;
+            }
+
+            if (sprite.levelX + sprite.spriteWidth / 2 < tileX + TILE_SIZE / 2 && intersect.height > intersect.width) {
+                collisions.right = true;
+            }
+
+            if (sprite.levelY + sprite.spriteHeight / 2 < tileY + TILE_SIZE) {
+                collisions.bottom = true;
+                collisions.bottomY = tileY;
+            }
+
+            if (sprite.levelY + sprite.spriteHeight / 2 > tileY + TILE_SIZE / 2 &&
+                intersect.width > intersect.height) {
+                collisions.top = true;
+            }
+        }
+    }
+
+    checkSpriteTileCollisions(sprite) {
+        const level = levels[this.level];
+        const levelWidth = level[0].length;
+        const levelHeight = level.length;
+        const collisions = {
+            bottom: false,
+            bottomY: null,
+            left: false,
+            right: false,
+            top: false
+        };
+
+        for (let x = 0; x < levelWidth; x++) {
+            for (let y = 0; y < levelHeight; y++) {
+                if (level[y][x] > 0) {
+                    this.checkSpriteTileCollision(
+                        sprite,
+                        x * TILE_SIZE,
+                        y * TILE_SIZE,
+                        level[y][x],
+                        collisions
+                    );
+                }
+            }
+        }
+console.log(collisions);
+        return collisions;
+    }
+
+    drawLevelTiles() {
+        const level = levels[this.level];
+        const width = level[0].length;
+        for (let x= 0; x < width; ++x) {
+            for (let y = 0; y < SCREEN_HEIGHT / TILE_SIZE; y++) {
+                const tileIndex = level[y][x];
+                this.drawTile(TILE_SIZE * x - this.scrollX, y * TILE_SIZE, tileIndex);
+            }
+        }
+    }
+
+    drawTile(x, y, tileIndex) {
+        const sx = (tileIndex * TILE_SIZE) - (TILES_PER_TILESET_ROW * Math.floor(tileIndex / TILES_PER_TILESET_ROW) * TILE_SIZE);
+        const sy = Math.floor(tileIndex / TILES_PER_TILESET_ROW)*TILE_SIZE;
+        this.context.drawImage(this.tileset, sx, sy, TILE_SIZE, TILE_SIZE, x, y, TILE_SIZE, TILE_SIZE);
+    }
+
+    initializeButtons() {
+        const buttons = document.getElementsByClassName('device-button');
+        for (let button of buttons) {
+            const buttonName = button.dataset.buttonName;
+            button.addEventListener('mousedown', event => {
+                this.buttonStates[buttonName] = true;
+            });
+            button.addEventListener('mouseup', event => {
+                this.buttonStates[buttonName] = false;
+            });
+        }
+    }
+
+    initializeKeys() {
+        window.addEventListener('keydown', event => {
+            if (event.code === 'KeyA'|| event.code === 'ArrowLeft') {
+                this.buttonStates.left = true;
+            }
+
+            if (event.code === 'KeyD' || event.code === 'ArrowRight') {
+                this.buttonStates.right = true;
+            }
+
+            if (event.code === 'KeyK' || event.key === 'Shift') {
+                this.buttonStates.b = true;
+            }
+
+            if (event.code === 'KeyL' || event.key === 'ArrowUp') {
+                this.buttonStates.a = true;
+            }
+        });
+
+        window.addEventListener('keyup', event => {
+            if (event.code === 'KeyA'|| event.code === 'ArrowLeft') {
+                this.buttonStates.left = false;
+            }
+
+            if (event.code === 'KeyD' || event.code === 'ArrowRight') {
+                this.buttonStates.right = false;
+            }
+
+            if (event.code === 'KeyK' || event.key === 'Shift') {
+                this.buttonStates.b = false;
+            }
+
+            if (event.code === 'KeyL' || event.key === 'ArrowUp') {
+                this.buttonStates.a = false;
+            }
+        });
+    }
+
+    loop(interval) {
+        const level = levels[this.level];
+        const levelWidth = level[0].length;
+
+        // Clear the screen
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+
+        // Update the level left/right scroll position based on where the possum is
+        if (this.possum.levelX + this.possum.spriteWidth / 2 >= SCREEN_WIDTH / 2 &&
+            this.scrollX + SCREEN_WIDTH < levelWidth * TILE_SIZE ||
+            (this.possum.levelX + SCREEN_WIDTH/2 + this.possum.spriteWidth / 2 <= levelWidth * TILE_SIZE && this.scrollX > 0)) {
+            this.scrollX = this.possum.levelX - SCREEN_WIDTH / 2 + this.possum.spriteWidth / 2;
+        }
+
+        // TODO draw the background
+
+        // Draw the level
+        this.drawLevelTiles();
+
+        // Update sprite positions, handle input, draw them, and process collisions
+        for (const sprite of this.sprites) {
+            sprite.refreshRenderPosition(this.scrollX);
+            sprite.draw(this.context);
+            const collisions = this.checkSpriteTileCollisions(sprite);
+            sprite.update(this.buttonStates, collisions, interval, levelWidth * TILE_SIZE);
+        }
+    }
+
+    run() {
+        setInterval(() => this.loop(INTERVAL), INTERVAL * 1000);
+    }
+}
+
+const game = new Game();
+game.run();

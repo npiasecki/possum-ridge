@@ -264,6 +264,11 @@ class Game {
 
             return inside;
         }
+
+        if (button.type === 'rectangle') {
+            return x >= button.topLeft[0] && x <= button.bottomRight[0] &&
+                y >= button.topLeft[1] && y <= button.bottomRight[1];
+        }
     }
 
     initializeButtons() {
@@ -283,9 +288,38 @@ class Game {
                 y: 385
             },
             {
+                bottomRight: [88,418],
+                name: 'down',
+                topLeft: [60,393],
+                type: 'rectangle'
+            },
+            {
+                bottomRight: [59,391],
+                name: 'left',
+                topLeft: [34,364],
+                type: 'rectangle'
+            },
+            {
+                bottomRight: [115,391],
+                name: 'right',
+                topLeft: [92,364],
+                type: 'rectangle'
+            },
+            {
                 name: 'select',
                 coordinates: [[108,464],[113,470],[148,451],[143,444]],
                 type: 'polygon'
+            },
+            {
+                name: 'start',
+                coordinates: [[166,464],[170,470],[205,451],[200,444]],
+                type: 'polygon'
+            },
+            {
+                bottomRight: [88,362],
+                name: 'up',
+                topLeft: [60,337],
+                type: 'rectangle'
             }
         ];
 
@@ -295,7 +329,6 @@ class Game {
             for (const button of buttons) {
                 if (this.hitTestButton(button, event.offsetX, event.offsetY)) {
                     this.buttonStates[button.name] = true;
-                    alert(button.name);
                 }
             }
         });

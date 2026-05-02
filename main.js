@@ -326,6 +326,8 @@ class Game {
         const device = document.getElementById('device');
 
         device.addEventListener('pointerdown', event => {
+            event.preventDefault();
+
             for (const button of buttons) {
                 if (this.hitTestButton(button, event.offsetX, event.offsetY)) {
                     this.buttonStates[button.name] = true;
@@ -334,6 +336,8 @@ class Game {
         });
 
         device.addEventListener('pointerup', event => {
+            event.preventDefault();
+
             for (const button of buttons) {
                 if (this.hitTestButton(button, event.offsetX, event.offsetY)) {
                     this.buttonStates[button.name] = false;

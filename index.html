@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, height=device-height" />
         <title>Possum Ridge</title>
         <link rel="stylesheet" href="main.css" />
     </head>
@@ -15,7 +15,7 @@
         <img id="tileset" src="assets/tileset.png" alt="Tileset" class="hidden" />
         <div id="device-wrapper">
             <img id="device" src="assets/device.png" usemap="#device-map" alt="Video game device"/>
-            <map name="device-map">
+            <map id="device-map" name="device-map">
                 <area class="device-button" shape="circle" coords="300,361,20" href="#" alt="Button A" data-button-name="a" />
                 <area class="device-button" shape="circle" coords="245,385,20" href="#" alt="Button B" data-button-name="b" />
                 <area class="device-button" shape="rect" coords="60,337,88,362" href="#" alt="Up Button" data-button-name="up" />

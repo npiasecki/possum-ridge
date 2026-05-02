@@ -218,7 +218,7 @@ class Game {
                 }
             }
         }
-console.log(collisions);
+
         return collisions;
     }
 

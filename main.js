@@ -239,17 +239,51 @@ class Game {
         this.context.drawImage(this.tileset, sx, sy, TILE_SIZE, TILE_SIZE, x, y, TILE_SIZE, TILE_SIZE);
     }
 
-    initializeButtons() {
-        const buttons = document.getElementsByClassName('device-button');
-        for (let button of buttons) {
-            const buttonName = button.dataset.buttonName;
-            button.addEventListener('mousedown', event => {
-                this.buttonStates[buttonName] = true;
-            });
-            button.addEventListener('mouseup', event => {
-                this.buttonStates[buttonName] = false;
-            });
+    hitTestButton(button, x, y) {
+        if (button.type === 'circle') {
+            let dx = x - button.x;
+            let dy = y - button.y;
+            let distance = Math.sqrt(dx * dx + dy * dy);
+
+            return distance <= button.radius;
         }
+    }
+
+    initializeButtons() {
+        const buttons = [
+            {
+                name: 'a',
+                radius: 20,
+                type: 'circle',
+                x: 300,
+                y: 361
+            },
+            {
+                name: 'b',
+                radius: 20,
+                type: 'circle',
+                x: 245,
+                y: 385
+            }
+        ];
+
+        const device = document.getElementById('device');
+
+        device.addEventListener('pointerdown', event => {
+            for (const button of buttons) {
+                if (this.hitTestButton(button, event.offsetX, event.offsetY)) {
+                    this.buttonStates[button.name] = true;
+                }
+            }
+        });
+
+        device.addEventListener('pointerup', event => {
+            for (const button of buttons) {
+                if (this.hitTestButton(button, event.offsetX, event.offsetY)) {
+                    this.buttonStates[button.name] = false;
+                }
+            }
+        });
     }
 
     initializeKeys() {

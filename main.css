@@ -10,10 +10,6 @@ body {
     position: relative;
 }
 
-#device-map {
-    pointer-events: none;
-}
-
 #device {
     height: 571px;
     width: 350px;

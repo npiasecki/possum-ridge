@@ -150,7 +150,10 @@ class Game {
         this.canvas = document.getElementById('canvas');
         this.context = this.canvas.getContext('2d');
         this.level = 0;
+        this.loopHandle = null;
         this.scrollX = 0;
+        this.startCard = document.getElementById('start-card');
+        this.state = 'start';
         this.tileset = document.getElementById('tileset');
 
         this.possum = new Possum();
@@ -331,6 +334,11 @@ class Game {
             for (const button of buttons) {
                 if (this.hitTestButton(button, event.offsetX, event.offsetY)) {
                     this.buttonStates[button.name] = true;
+
+                    if (button.name === 'start' && this.state === 'start') {
+                        this.state = 'game';
+                        this.loopHandle = setInterval(() => this.loop(INTERVAL), INTERVAL * 1000);
+                    }
                 }
             }
         });
@@ -417,7 +425,8 @@ class Game {
     }
 
     run() {
-        setInterval(() => this.loop(INTERVAL), INTERVAL * 1000);
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.drawImage(this.startCard, 0, 0, this.canvas.width, this.canvas.height);
     }
 }
 

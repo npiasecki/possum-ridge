@@ -14,6 +14,7 @@ body {
     height: 571px;
     touch-action: none;
     user-select: none;
+    -webkit-touch-callout: none;
     -webkit-user-drag: none;
     width: 350px;
 }

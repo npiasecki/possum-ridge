@@ -12,6 +12,9 @@ body {
 
 #device {
     height: 571px;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-drag: none;
     width: 350px;
 }
 

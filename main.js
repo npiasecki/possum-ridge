@@ -247,6 +247,23 @@ class Game {
 
             return distance <= button.radius;
         }
+
+        if (button.type === 'polygon') {
+            let inside = false;
+
+            for (let i = 0, j = button.coordinates.length - 1; i < button.coordinates.length; j = i++) {
+                const [xi, yi] = button.coordinates[i];
+                const [xj, yj] = button.coordinates[j];
+
+                const intersect =
+                    ((yi > y) !== (yj > y)) &&
+                    (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+
+                if (intersect) inside = !inside;
+            }
+
+            return inside;
+        }
     }
 
     initializeButtons() {
@@ -264,6 +281,11 @@ class Game {
                 type: 'circle',
                 x: 245,
                 y: 385
+            },
+            {
+                name: 'select',
+                coordinates: [[108,464],[113,470],[148,451],[143,444]],
+                type: 'polygon'
             }
         ];
 
@@ -273,6 +295,7 @@ class Game {
             for (const button of buttons) {
                 if (this.hitTestButton(button, event.offsetX, event.offsetY)) {
                     this.buttonStates[button.name] = true;
+                    alert(button.name);
                 }
             }
         });

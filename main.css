@@ -23,6 +23,7 @@ body {
     position: absolute;
     left: 94px;
     top: 81px;
+    user-select: none;
 }
 
 .hidden {

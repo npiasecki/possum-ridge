@@ -344,6 +344,10 @@ class Game {
                 }
             }
         });
+
+        device.addEventListener('touchstart', event => {
+            event.preventDefault();
+        })
     }
 
     initializeKeys() {

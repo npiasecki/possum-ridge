@@ -31,215 +31,106 @@ const levels = [
   ]
 ];
 
-const tunes = [
-    {
-        id: 'alternating-thumb-roll',
-        name: 'Alternating Thumb Roll',
-        tabs: [
-            {
-                type: 'bar'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 2,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 5,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 1,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'bar'
-            },
-            {
-                type: 'note',
-                string: 4,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 2,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 5,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 1,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'bar'
-            }
-        ]
-    },
-    {
-        id: 'fretting-d7',
-        name: 'Fretting D7',
-        tabs: [
-            {
-                type: 'bar'
-            },
-            {
-                type: 'note',
-                string: 2,
-                fret: 1,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 2,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 2,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'bar'
-            }
-        ]
-    },
-    {
-        id: 'old-macdonald',
-        name: 'Old MacDonald',
-        tabs: [
-            {
-                type: 'bar'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 4,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'bar'
-            },
-            {
-                type: 'note',
-                string: 4,
-                fret: 2,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 4,
-                fret: 2,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 4,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'rest'
-            },
-            {
-                type: 'bar'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 4,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 4,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 2,
-                duration: '8n'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 2,
-                duration: '8n'
-            },
-            {
-                type: 'bar'
-            },
-            {
-                type: 'note',
-                string: 3,
-                fret: 0,
-                duration: '8n.'
-            },
-            {
-                type: 'rest'
-            },
-            {
-                type: 'rest'
-            },
-            {
-                type: 'note',
-                string: 4,
-                fret: 0,
-                duration: '8n'
-            },
-            {
-                type: 'bar'
-            }
-        ]
-    }
+const sprites = [
+  [
+      {
+          note: 'G3',
+          type: 'jug',
+          tileX: 10,
+          tileY: 14
+      },
+      {
+          note: 'B3',
+          type: 'jug',
+          tileX: 12,
+          tileY: 14
+      },
+      {
+          note: 'G4',
+          type: 'jug',
+          tileX: 14,
+          tileY: 14
+      },
+      {
+          note: 'D4',
+          type: 'jug',
+          tileX: 16,
+          tileY: 14
+      },
+      {
+          note: 'D3',
+          type: 'jug',
+          tileX: 18,
+          tileY: 14
+      },
+      {
+          note: 'B3',
+          type: 'jug',
+          tileX: 20,
+          tileY: 14
+      },
+      {
+          note: 'G4',
+          type: 'jug',
+          tileX: 22,
+          tileY: 14
+      },
+      {
+          note: 'D4',
+          type: 'jug',
+          tileX: 24,
+          tileY: 14
+      }
+  ]
 ];
+
+class Jug {
+    constructor(note, tileX, tileY) {
+        this.image = document.getElementById('jug');
+        this.spriteHeight = 8;
+        this.spriteWidth = 8;
+        this.levelX = tileX * TILE_SIZE;
+        this.levelY = tileY * TILE_SIZE;
+        this.note = note;
+        this.tileX = tileX;
+        this.tileY = tileY;
+        this.renderX = this.levelX;
+        this.renderY = this.levelY;
+    }
+
+    draw(context) {
+        context.drawImage(
+            this.image,
+            0,
+            0,
+            this.spriteWidth,
+            this.spriteHeight,
+            this.renderX,
+            this.renderY,
+            this.spriteWidth,
+            this.spriteHeight
+        );
+    }
+
+    refreshRenderPosition(scrollX) {
+        this.renderX = this.levelX - scrollX;
+    }
+
+    update({game}) {
+        const collisions = {};
+        const possum = game.possum;
+
+        const intersects = !(possum.levelX + possum.spriteWidth <= this.levelX ||
+            possum.levelX >= this.levelX + this.spriteWidth ||
+            possum.levelY + possum.spriteHeight <= this.levelY ||
+            possum.levelY >= this.levelY + this.spriteHeight);
+
+        if (intersects) {
+            game.playNote(this.note);
+            game.destroySprite(this);
+        }
+    }
+}
 
 class Possum {
     constructor() {
@@ -285,7 +176,7 @@ class Possum {
         this.renderY = this.levelY;
     }
 
-    update(buttonStates, collisions, interval, levelWidth, playNote) {
+    update({buttonStates, collisions, interval, levelWidth}) {
         this.running = buttonStates.b;
 
         // We might need to snap back up if we slipped below the floor during the last loop
@@ -336,7 +227,6 @@ class Possum {
             this.animationIndex = 4; // TODO left/right jump
             this.levelY -= 1;
             this.velocityY = -5;
-            playNote('G4');
         }
 
         // If we're not moving, return to idle animation
@@ -361,19 +251,17 @@ class Game {
         this.canvas = document.getElementById('canvas');
         this.context = this.canvas.getContext('2d');
         this.pointerStates = [];
-        this.level = 0;
         this.loopHandle = null;
-        this.scrollX = 0;
         this.startCard = document.getElementById('start-card');
         this.state = 'start';
         this.tileset = document.getElementById('tileset');
 
         this.possum = new Possum();
-
-        this.sprites = [this.possum];
+        this.sprites = [];
 
         this.initializeButtons();
         this.initializeKeys();
+        this.initializeLevel();
         this.initializeSound();
     }
 
@@ -436,6 +324,11 @@ class Game {
         }
 
         return collisions;
+    }
+
+    destroySprite(sprite) {
+        const spriteIndex = this.sprites.indexOf(sprite);
+        this.sprites.splice(spriteIndex, 1);
     }
 
     drawLevelTiles() {
@@ -615,8 +508,22 @@ class Game {
         });
     }
 
+    initializeLevel() {
+        this.level = 0;
+        this.scrollX = 0;
+
+        this.sprites = [this.possum];
+
+        const levelSprites = sprites[this.level];
+        for (const levelSprite of levelSprites) {
+            if (levelSprite.type === 'jug') {
+                const jug = new Jug(levelSprite.note, levelSprite.tileX, levelSprite.tileY);
+                this.sprites.push(jug);
+            }
+        }
+    }
+
     initializeSound() {
-        this.pitches = [62, 59, 55, 50, 67];
         this.transport = Tone.getTransport();
 
         // Create the banjo strings
@@ -656,7 +563,14 @@ class Game {
             sprite.refreshRenderPosition(this.scrollX);
             sprite.draw(this.context);
             const collisions = this.checkSpriteTileCollisions(sprite);
-            sprite.update(this.buttonStates, collisions, interval, levelWidth * TILE_SIZE, this.playNote.bind(this));
+            const updateContext = {
+              buttonStates: this.buttonStates,
+              collisions: collisions,
+              interval: interval,
+              game: this,
+              levelWidth: levelWidth * TILE_SIZE
+            };
+            sprite.update(updateContext);
         }
     }
 

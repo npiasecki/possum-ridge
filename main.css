@@ -35,3 +35,8 @@ body {
 .hidden {
     display: none;
 }
+
+#instructions {
+    font-size: 10px;
+    text-align: center;
+}

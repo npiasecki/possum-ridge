@@ -31,6 +31,216 @@ const levels = [
   ]
 ];
 
+const tunes = [
+    {
+        id: 'alternating-thumb-roll',
+        name: 'Alternating Thumb Roll',
+        tabs: [
+            {
+                type: 'bar'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 2,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 5,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 1,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'bar'
+            },
+            {
+                type: 'note',
+                string: 4,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 2,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 5,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 1,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'bar'
+            }
+        ]
+    },
+    {
+        id: 'fretting-d7',
+        name: 'Fretting D7',
+        tabs: [
+            {
+                type: 'bar'
+            },
+            {
+                type: 'note',
+                string: 2,
+                fret: 1,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 2,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 2,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'bar'
+            }
+        ]
+    },
+    {
+        id: 'old-macdonald',
+        name: 'Old MacDonald',
+        tabs: [
+            {
+                type: 'bar'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 4,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'bar'
+            },
+            {
+                type: 'note',
+                string: 4,
+                fret: 2,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 4,
+                fret: 2,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 4,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'rest'
+            },
+            {
+                type: 'bar'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 4,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 4,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 2,
+                duration: '8n'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 2,
+                duration: '8n'
+            },
+            {
+                type: 'bar'
+            },
+            {
+                type: 'note',
+                string: 3,
+                fret: 0,
+                duration: '8n.'
+            },
+            {
+                type: 'rest'
+            },
+            {
+                type: 'rest'
+            },
+            {
+                type: 'note',
+                string: 4,
+                fret: 0,
+                duration: '8n'
+            },
+            {
+                type: 'bar'
+            }
+        ]
+    }
+];
+
 class Possum {
     constructor() {
         this.animations = [
@@ -75,7 +285,7 @@ class Possum {
         this.renderY = this.levelY;
     }
 
-    update(buttonStates, collisions, interval, levelWidth) {
+    update(buttonStates, collisions, interval, levelWidth, playNote) {
         this.running = buttonStates.b;
 
         // We might need to snap back up if we slipped below the floor during the last loop
@@ -126,6 +336,7 @@ class Possum {
             this.animationIndex = 4; // TODO left/right jump
             this.levelY -= 1;
             this.velocityY = -5;
+            playNote('G4');
         }
 
         // If we're not moving, return to idle animation
@@ -149,6 +360,7 @@ class Game {
         };
         this.canvas = document.getElementById('canvas');
         this.context = this.canvas.getContext('2d');
+        this.pointerStates = [];
         this.level = 0;
         this.loopHandle = null;
         this.scrollX = 0;
@@ -162,6 +374,7 @@ class Game {
 
         this.initializeButtons();
         this.initializeKeys();
+        this.initializeSound();
     }
 
     checkSpriteTileCollision(sprite, tileX, tileY, tileIndex, collisions) {
@@ -334,6 +547,7 @@ class Game {
             for (const button of buttons) {
                 if (this.hitTestButton(button, event.offsetX, event.offsetY)) {
                     this.buttonStates[button.name] = true;
+                    this.pointerStates[event.pointerId] = button.name;
 
                     if (button.name === 'start' && this.state === 'start') {
                         this.state = 'game';
@@ -347,8 +561,13 @@ class Game {
             event.preventDefault();
 
             for (const button of buttons) {
-                if (this.hitTestButton(button, event.offsetX, event.offsetY)) {
+                if (this.hitTestButton(button, event.offsetX, event.offsetY) ||
+                    this.pointerStates[event.pointerId] === button.name) {
                     this.buttonStates[button.name] = false;
+
+                    if (button.name === 'start') {
+                        this.transport.start();
+                    }
                 }
             }
         });
@@ -396,6 +615,23 @@ class Game {
         });
     }
 
+    initializeSound() {
+        this.pitches = [62, 59, 55, 50, 67];
+        this.transport = Tone.getTransport();
+
+        // Create the banjo strings
+        this.instrument = new Tone.Sampler({
+                urls: {
+                    B3: 'B3.wav',
+                    D3: 'D3.wav',
+                    D4: 'D4.wav',
+                    G3: 'G3.wav',
+                    G4: 'G4.wav'
+                },
+                baseUrl: './sounds/'
+            }).toDestination();
+    }
+
     loop(interval) {
         const level = levels[this.level];
         const levelWidth = level[0].length;
@@ -420,8 +656,12 @@ class Game {
             sprite.refreshRenderPosition(this.scrollX);
             sprite.draw(this.context);
             const collisions = this.checkSpriteTileCollisions(sprite);
-            sprite.update(this.buttonStates, collisions, interval, levelWidth * TILE_SIZE);
+            sprite.update(this.buttonStates, collisions, interval, levelWidth * TILE_SIZE, this.playNote.bind(this));
         }
+    }
+
+    playNote(note) {
+        this.instrument.triggerAttackRelease(note, '1n');
     }
 
     run() {

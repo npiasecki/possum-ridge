@@ -371,7 +371,7 @@ class Game {
 
     destroySprite(sprite) {
         const spriteIndex = this.sprites.indexOf(sprite);
-        this.sprites.splice(spriteIndex, 1);
+        this.sprites[spriteIndex] = null;
     }
 
     drawLevelTiles() {
@@ -616,6 +616,10 @@ class Game {
 
         // Update sprite positions, handle input, draw them, and process collisions
         for (const sprite of this.sprites) {
+            if (sprite === null ) {
+                continue;
+            }
+
             sprite.refreshRenderPosition(this.scrollX);
             sprite.draw(this.context);
             const collisions = this.checkSpriteTileCollisions(sprite);

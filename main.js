@@ -290,6 +290,7 @@ class Game {
         };
         this.canvas = document.getElementById('canvas');
         this.context = this.canvas.getContext('2d');
+        this.farBackground = document.getElementById('background-far');
         this.pointerStates = [];
         this.loopHandle = null;
         this.startCard = document.getElementById('start-card');
@@ -598,7 +599,17 @@ class Game {
             this.scrollX = this.possum.levelX - SCREEN_WIDTH / 2 + this.possum.spriteWidth / 2;
         }
 
-        // TODO draw the background
+        // Draw the background
+        this.context.drawImage(
+            this.farBackground,
+            0,
+            0,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT,
+            0,
+            0,
+            SCREEN_WIDTH,
+            SCREEN_HEIGHT);
 
         // Draw the level
         this.drawLevelTiles();

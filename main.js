@@ -485,21 +485,7 @@ class Game {
                     this.pointerStates[event.pointerId] = button.name;
 
                     if (button.name === 'start') {
-                        switch (this.state) {
-                            case 'start':
-                                this.state = 'game';
-                                this.loopHandle = setInterval(() => this.loop(INTERVAL), INTERVAL * 1000);
-                                break;
-                            case 'game':
-                                clearInterval(this.loopHandle);
-                                this.loopHandle = null;
-                                this.possum = new Possum();
-                                this.initializeLevel();
-                                this.state = 'start';
-                                this.run();
-                                break;
-
-                        }
+                        this.whenStartPressed();
                     }
                 }
             }
@@ -541,6 +527,10 @@ class Game {
 
             if (event.code === 'KeyL' || event.key === 'ArrowUp') {
                 this.buttonStates.a = true;
+            }
+
+            if (event.key === 'Enter') {
+                this.whenStartPressed();
             }
         });
 
@@ -636,6 +626,24 @@ class Game {
     run() {
         this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
         this.context.drawImage(this.startCard, 0, 0, this.canvas.width, this.canvas.height);
+    }
+
+    whenStartPressed() {
+        switch (this.state) {
+            case 'start':
+                this.state = 'game';
+                this.loopHandle = setInterval(() => this.loop(INTERVAL), INTERVAL * 1000);
+                break;
+            case 'game':
+                clearInterval(this.loopHandle);
+                this.loopHandle = null;
+                this.possum = new Possum();
+                this.initializeLevel();
+                this.state = 'start';
+                this.run();
+                break;
+
+        }
     }
 }
 

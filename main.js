@@ -17,11 +17,11 @@ const levels = [
       [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 1, 1, 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 2, 3, 2, 4, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 13, 14, 12, 12, 15, 0, 0, 0, 0, 7, 1, 1, 9, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 10, 2, 2, 8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 16, 11, 11, 15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
       [ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
@@ -80,7 +80,31 @@ const sprites = [
           type: 'jug',
           tileX: 24,
           tileY: 14
-      }
+      },
+      {
+          note: 'G3',
+          type: 'jug',
+          tileX: 24,
+          tileY: 8
+      },
+      {
+          note: 'B3',
+          type: 'jug',
+          tileX: 23,
+          tileY: 8
+      },
+      {
+          note: 'G4',
+          type: 'jug',
+          tileX: 16,
+          tileY: 6
+      },
+      {
+          note: 'D4',
+          type: 'jug',
+          tileX: 14,
+          tileY: 6
+      },
   ]
 ];
 
@@ -139,7 +163,8 @@ class Possum {
             [document.getElementById('possum-idle-left'), 4],
             [document.getElementById('possum-walk-right'), 4],
             [document.getElementById('possum-walk-left'), 4],
-            [document.getElementById('possum-jump-right'), 5]
+            [document.getElementById('possum-jump-right'), 5],
+            [document.getElementById('possum-jump-left'), 5]
         ];
         this.animationIndex = 0;
         this.direction = 0;
@@ -185,6 +210,12 @@ class Possum {
             this.levelY = SCREEN_HEIGHT - this.spriteHeight - nearestFloorHeight;
         }
 
+        // We might need to snap back down if his head poked through the ceiling during the last loop
+        if (this.velocityY < 0 && collisions.top) {
+            const nearestCeilingHeight = SCREEN_HEIGHT - collisions.topY;
+            this.levelY = SCREEN_HEIGHT - nearestCeilingHeight;
+        }
+
         // Apply some gravity: TODO, unless jumping
         if (!collisions.bottom) {
             this.velocityY += 0.25;
@@ -194,7 +225,10 @@ class Possum {
         if ((this.velocityY > 0 && collisions.bottom) /* hit the floor */ ||
             (this.velocityY < 0 && this.levelY <= 0) /* hit the top of the screen */ ||
             (this.velocityY < 0 && collisions.top) /* hit his head */) {
-            this.jumping = false;
+            if (collisions.bottom) {
+                this.jumping = false;
+            }
+
             this.velocityY = 0;
         }
 
@@ -207,7 +241,10 @@ class Possum {
                 this.levelX += (this.running ? POSSUM_RUN_SPEED : POSSUM_WALK_SPEED) * interval;
             }
 
-            this.animationIndex = 2;
+            if (!this.jumping) {
+                this.animationIndex = 2;
+            }
+
             this.direction = 0;
         }
 
@@ -217,14 +254,17 @@ class Possum {
                 this.levelX -= (this.running ? POSSUM_RUN_SPEED : POSSUM_WALK_SPEED) * interval;
             }
 
-            this.animationIndex = 3;
+            if (!this.jumping) {
+                this.animationIndex = 3;
+            }
+
             this.direction = 1;
         }
 
         // Are we trying to jump?
         if (buttonStates.a && !this.jumping) {
             this.jumping = true;
-            this.animationIndex = 4; // TODO left/right jump
+            this.animationIndex = this.direction === 0 ? 4 : 5;
             this.levelY -= 1;
             this.velocityY = -5;
         }
@@ -279,20 +319,22 @@ class Game {
 
             if (sprite.levelX + sprite.spriteWidth / 2 > tileX + TILE_SIZE / 2 && intersect.height > intersect.width) {
                 collisions.left = true;
+                collisions.leftY = tileX + TILE_SIZE;
             }
 
             if (sprite.levelX + sprite.spriteWidth / 2 < tileX + TILE_SIZE / 2 && intersect.height > intersect.width) {
                 collisions.right = true;
+                collisions.rightY = tileX;
             }
 
-            if (sprite.levelY + sprite.spriteHeight / 2 < tileY + TILE_SIZE) {
+            if (sprite.levelY + sprite.spriteHeight / 2 < tileY + TILE_SIZE / 2 && intersect.width > 2) {
                 collisions.bottom = true;
                 collisions.bottomY = tileY;
             }
 
-            if (sprite.levelY + sprite.spriteHeight / 2 > tileY + TILE_SIZE / 2 &&
-                intersect.width > intersect.height) {
+            if (sprite.levelY + sprite.spriteHeight / 2 > tileY + TILE_SIZE / 2 && intersect.width > intersect.height) {
                 collisions.top = true;
+                collisions.topY = tileY + TILE_SIZE;
             }
         }
     }
@@ -442,9 +484,22 @@ class Game {
                     this.buttonStates[button.name] = true;
                     this.pointerStates[event.pointerId] = button.name;
 
-                    if (button.name === 'start' && this.state === 'start') {
-                        this.state = 'game';
-                        this.loopHandle = setInterval(() => this.loop(INTERVAL), INTERVAL * 1000);
+                    if (button.name === 'start') {
+                        switch (this.state) {
+                            case 'start':
+                                this.state = 'game';
+                                this.loopHandle = setInterval(() => this.loop(INTERVAL), INTERVAL * 1000);
+                                break;
+                            case 'game':
+                                clearInterval(this.loopHandle);
+                                this.loopHandle = null;
+                                this.possum = new Possum();
+                                this.initializeLevel();
+                                this.state = 'start';
+                                this.run();
+                                break;
+
+                        }
                     }
                 }
             }
